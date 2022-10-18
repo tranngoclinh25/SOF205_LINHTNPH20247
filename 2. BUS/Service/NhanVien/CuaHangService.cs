@@ -25,7 +25,16 @@ namespace _2._BUS.Service.NhanVien
 
         public string Add(QLNhanVienViewModel obj)
         {
-            if (_iCuaHangRepository.addCuaHang(obj.CuaHang))
+            var ch = new CuaHang()
+            {
+                Id = obj.IdCh,
+                Ma = obj.MaCh,
+                Ten = obj.TenCh,
+                DiaChi = obj.DiaChiCH,
+                ThanhPho = obj.ThanhPho,
+                QuocGia = obj.QuocGia,
+            };
+            if (_iCuaHangRepository.addCuaHang(ch))
             {
                 GetAllData();
                 return "Thêm thành công";
@@ -36,9 +45,18 @@ namespace _2._BUS.Service.NhanVien
 
         public string Update(QLNhanVienViewModel obj)
         {
-            int index = _iCuaHangRepository.getCuaHangsFromDb().FindIndex(p => p.Id == obj.CuaHang.Id);
+            int index = _iCuaHangRepository.getCuaHangsFromDb().FindIndex(p => p.Id == obj.IdCh);
             if (index == -1) return "Không tìm thấy";
-            if (_iCuaHangRepository.updateCuaHang(obj.CuaHang))
+            var ch = new CuaHang()
+            {
+                Id = obj.IdCh,
+                Ma = obj.MaCh,
+                Ten = obj.TenCh,
+                DiaChi = obj.DiaChiCH,
+                ThanhPho = obj.ThanhPho,
+                QuocGia = obj.QuocGia,
+            };
+            if (_iCuaHangRepository.updateCuaHang(ch))
             {
                 GetAllData();
                 return "Sửa thành công";
@@ -48,9 +66,18 @@ namespace _2._BUS.Service.NhanVien
 
         public string Delete(QLNhanVienViewModel obj)
         {
-            int index = _iCuaHangRepository.getCuaHangsFromDb().FindIndex(p => p.Id == obj.CuaHang.Id);
+            int index = _iCuaHangRepository.getCuaHangsFromDb().FindIndex(p => p.Id == obj.IdCh);
             if (index == -1) return "Không tìm thấy";
-            if (_iCuaHangRepository.deleteCuaHang(obj.CuaHang))
+            var ch = new CuaHang()
+            {
+                Id = obj.IdCh,
+                Ma = obj.MaCh,
+                Ten = obj.TenCh,
+                DiaChi = obj.DiaChiCH,
+                ThanhPho = obj.ThanhPho,
+                QuocGia = obj.QuocGia,
+            };
+            if (_iCuaHangRepository.deleteCuaHang(ch))
             {
                 GetAllData();
                 return "Xóa thành công";
@@ -63,7 +90,12 @@ namespace _2._BUS.Service.NhanVien
             _cuaHangsList = (from a in _iCuaHangRepository.getCuaHangsFromDb()
                 select new QLNhanVienViewModel()
                 {
-                    CuaHang = a
+                    IdCh = a.Id,
+                    MaCh = a.Ma,
+                    TenCh = a.Ten,
+                    DiaChiCH = a.DiaChi,
+                    ThanhPho = a.ThanhPho,
+                    QuocGia = a.QuocGia,
                 }).ToList();
         }
 

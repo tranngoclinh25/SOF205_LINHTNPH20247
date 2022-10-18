@@ -25,7 +25,21 @@ namespace _2._BUS.Service
 
         public string Add(KhachHangViewModel obj)
         {
-            if (_iKhachHangRepository.addKhachHang(obj.KhachHang))
+            var kh = new KhachHang()
+            {
+                Id = obj.Id,
+                Ma = obj.Ma,
+                Ten = obj.Ten,
+                TenDem = obj.TenDem,
+                Ho = obj.Ho,
+                NgaySinh = obj.NgaySinh,
+                Sdt = obj.Sdt,
+                DiaChi = obj.DiaChi,
+                ThanhPho = obj.ThanhPho,
+                QuocGia = obj.QuocGia,
+                MatKhau = obj.MatKhau,
+            };
+            if (_iKhachHangRepository.addKhachHang(kh))
             {
                 GetAllData();
                 return "Thêm thành công";
@@ -36,9 +50,23 @@ namespace _2._BUS.Service
 
         public string Update(KhachHangViewModel obj)
         {
-            int index = _iKhachHangRepository.getKhachHangsFromDb().FindIndex(p => p.Id == obj.KhachHang.Id);
+            int index = _iKhachHangRepository.getKhachHangsFromDb().FindIndex(p => p.Id == obj.Id);
             if (index == -1) return "Không tìm thấy";
-            if (_iKhachHangRepository.updateKhachHang(obj.KhachHang))
+            var kh = new KhachHang()
+            {
+                Id = obj.Id,
+                Ma = obj.Ma,
+                Ten = obj.Ten,
+                TenDem = obj.TenDem,
+                Ho = obj.Ho,
+                NgaySinh = obj.NgaySinh,
+                Sdt = obj.Sdt,
+                DiaChi = obj.DiaChi,
+                ThanhPho = obj.ThanhPho,
+                QuocGia = obj.QuocGia,
+                MatKhau = obj.MatKhau,
+            };
+            if (_iKhachHangRepository.updateKhachHang(kh))
             {
                 GetAllData();
                 return "Sửa thành công";
@@ -48,9 +76,23 @@ namespace _2._BUS.Service
 
         public string Delete(KhachHangViewModel obj)
         {
-            int index = _iKhachHangRepository.getKhachHangsFromDb().FindIndex(p => p.Id == obj.KhachHang.Id);
+            int index = _iKhachHangRepository.getKhachHangsFromDb().FindIndex(p => p.Id == obj.Id);
             if (index == -1) return "Không tìm thấy";
-            if (_iKhachHangRepository.deleteKhachHang(obj.KhachHang))
+            var kh = new KhachHang()
+            {
+                Id = obj.Id,
+                Ma = obj.Ma,
+                Ten = obj.Ten,
+                TenDem = obj.TenDem,
+                Ho = obj.Ho,
+                NgaySinh = obj.NgaySinh,
+                Sdt = obj.Sdt,
+                DiaChi = obj.DiaChi,
+                ThanhPho = obj.ThanhPho,
+                QuocGia = obj.QuocGia,
+                MatKhau = obj.MatKhau,
+            };
+            if (_iKhachHangRepository.deleteKhachHang(kh))
             {
                 GetAllData();
                 return "Xóa thành công";
@@ -63,7 +105,17 @@ namespace _2._BUS.Service
             _khachHangList = (from a in _iKhachHangRepository.getKhachHangsFromDb()
                     select new KhachHangViewModel()
                     {
-                        KhachHang = a
+                        Id = a.Id,
+                        Ma = a.Ma,
+                        Ten = a.Ten,
+                        TenDem = a.TenDem,
+                        Ho = a.Ho,
+                        NgaySinh = a.NgaySinh,
+                        Sdt = a.Sdt,
+                        DiaChi = a.DiaChi,
+                        ThanhPho = a.ThanhPho,
+                        QuocGia = a.QuocGia,
+                        MatKhau = a.MatKhau,
                     }).ToList();
         }
 

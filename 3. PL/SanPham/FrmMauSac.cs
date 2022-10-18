@@ -38,7 +38,7 @@ namespace _3._PL.SanPham
             dgrid_MauSac.Columns[1].Visible = false;
             foreach (var ms in _iMauSacService.GetAll())
             {
-                dgrid_MauSac.Rows.Add(stt++, ms.MauSac.Id, ms.MauSac.Ma, ms.MauSac.Ten);
+                dgrid_MauSac.Rows.Add(stt++, ms.IdMs, ms.MaMs, ms.TenMs);
             }
         }
 
@@ -53,8 +53,12 @@ namespace _3._PL.SanPham
 
         private QLSanPhamViewModel getMauSacControl()
         {
-            var ms = new MauSac() { Id = Guid.Empty,Ma = txt_MaMS.Text,Ten = txt_TenMS.Text};
-            return new QLSanPhamViewModel() { MauSac = ms};
+            return new QLSanPhamViewModel()
+            {
+                IdMs = Guid.Empty,
+                MaMs = txt_MaMS.Text,
+                TenMs = txt_TenMS.Text
+            };
         }
 
         private void btn_Them_Click(object sender, EventArgs e)
@@ -66,7 +70,7 @@ namespace _3._PL.SanPham
         private void btn_Sua_Click(object sender, EventArgs e)
         {
             var temp = getMauSacControl();
-            temp.MauSac.Id = _id;
+            temp.IdMs = _id;
             MessageBox.Show(_iMauSacService.Update(temp));
             LoadMauSac();
         }
@@ -74,7 +78,7 @@ namespace _3._PL.SanPham
         private void btn_Xoa_Click(object sender, EventArgs e)
         {
             var temp = getMauSacControl();
-            temp.MauSac.Id = _id;
+            temp.IdMs = _id;
             DialogResult dialogResult = MessageBox.Show("Bạn có muốn xóa không", "Thông báo", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {

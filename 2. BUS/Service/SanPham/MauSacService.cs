@@ -24,7 +24,13 @@ namespace _2._BUS.Service.SanPham
         }
         public string Add(QLSanPhamViewModel obj)
         {
-            if (_iMauSacRepository.addMauSac(obj.MauSac))
+            var ms = new MauSac()
+            {
+                Id = obj.IdMs,
+                Ma = obj.MaMs,
+                Ten = obj.TenMs,
+            };
+            if (_iMauSacRepository.addMauSac(ms))
             {
                 GetAllData();
                 return "Thêm thành công";
@@ -35,9 +41,15 @@ namespace _2._BUS.Service.SanPham
 
         public string Update(QLSanPhamViewModel obj)
         {
-            int index = _iMauSacRepository.getMauSacsFromDb().FindIndex(p => p.Id == obj.MauSac.Id);
+            int index = _iMauSacRepository.getMauSacsFromDb().FindIndex(p => p.Id == obj.IdMs);
             if (index == -1) return "Không tìm thấy";
-            if (_iMauSacRepository.updateMauSac(obj.MauSac))
+            var ms = new MauSac()
+            {
+                Id = obj.IdMs,
+                Ma = obj.MaMs,
+                Ten = obj.TenMs,
+            };
+            if (_iMauSacRepository.updateMauSac(ms))
             {
                 GetAllData();
                 return "Sửa thành công";
@@ -47,9 +59,15 @@ namespace _2._BUS.Service.SanPham
 
         public string Delete(QLSanPhamViewModel obj)
         {
-            int index = _iMauSacRepository.getMauSacsFromDb().FindIndex(p => p.Id == obj.MauSac.Id);
+            int index = _iMauSacRepository.getMauSacsFromDb().FindIndex(p => p.Id == obj.IdMs);
             if (index == -1) return "Không tìm thấy";
-            if (_iMauSacRepository.deleteMauSac(obj.MauSac))
+            var ms = new MauSac()
+            {
+                Id = obj.IdMs,
+                Ma = obj.MaMs,
+                Ten = obj.TenMs,
+            };
+            if (_iMauSacRepository.deleteMauSac(ms))
             {
                 GetAllData();
                 return "Xóa thành công";
@@ -62,7 +80,9 @@ namespace _2._BUS.Service.SanPham
             _mauSacList = (from a in _iMauSacRepository.getMauSacsFromDb()
                     select new QLSanPhamViewModel()
                     {
-                        MauSac = a
+                        IdMs = a.Id,
+                        MaMs = a.Ma,
+                        TenMs = a.Ten
                     }).ToList();
         }
 

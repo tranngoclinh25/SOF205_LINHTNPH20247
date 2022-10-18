@@ -80,7 +80,6 @@ namespace _2._BUS.Service.SanPham
             _dongSpList = (from a in _iDongSpRepository.getDongSpsFromDb()
                     select new QLSanPhamViewModel()
                     {
-                        DongSp = a,
                         IdDsp = a.Id,
                         MaDsp = a.Ma,
                         TenDsp = a.Ten

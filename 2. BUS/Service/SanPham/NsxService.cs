@@ -25,7 +25,13 @@ namespace _2._BUS.Service.SanPham
 
         public string Add(QLSanPhamViewModel obj)
         {
-            if (_iNsxRepository.addNsx(obj.Nsx))
+            var nsx = new Nsx()
+            {
+                Id = obj.IdNsx,
+                Ma = obj.MaNsx,
+                Ten = obj.TenNsx
+            };
+            if (_iNsxRepository.addNsx(nsx))
             {
                 GetAllData();
                 return "Thêm thành công";
@@ -36,9 +42,15 @@ namespace _2._BUS.Service.SanPham
 
         public string Update(QLSanPhamViewModel obj)
         {
-            int index = _iNsxRepository.getNsxesFromDb().FindIndex(p => p.Id == obj.Nsx.Id);
+            int index = _iNsxRepository.getNsxesFromDb().FindIndex(p => p.Id == obj.IdNsx);
             if (index == -1) return "Không tìm thấy";
-            if (_iNsxRepository.updateNsx(obj.Nsx))
+            var nsx = new Nsx()
+            {
+                Id = obj.IdNsx,
+                Ma = obj.MaNsx,
+                Ten = obj.TenNsx
+            };
+            if (_iNsxRepository.updateNsx(nsx))
             {
                 GetAllData();
                 return "Sửa thành công";
@@ -48,9 +60,15 @@ namespace _2._BUS.Service.SanPham
 
         public string Delete(QLSanPhamViewModel obj)
         {
-            int index = _iNsxRepository.getNsxesFromDb().FindIndex(p => p.Id == obj.Nsx.Id);
+            int index = _iNsxRepository.getNsxesFromDb().FindIndex(p => p.Id == obj.IdNsx);
             if (index == -1) return "Không tìm thấy";
-            if (_iNsxRepository.deleteNsx(obj.Nsx))
+            var nsx = new Nsx()
+            {
+                Id = obj.IdNsx,
+                Ma = obj.MaNsx,
+                Ten = obj.TenNsx
+            };
+            if (_iNsxRepository.deleteNsx(nsx))
             {
                 GetAllData();
                 return "Xóa thành công";
@@ -63,10 +81,11 @@ namespace _2._BUS.Service.SanPham
             _nsxList = (from a in _iNsxRepository.getNsxesFromDb()
                     select new QLSanPhamViewModel()
                     {
-                        Nsx = a
+                        IdNsx = a.Id,
+                        MaNsx = a.Ma,
+                        TenNsx = a.Ten
                     }).ToList();
         }
-
 
         public List<QLSanPhamViewModel> GetAll()
         {

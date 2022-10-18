@@ -45,7 +45,7 @@ namespace _3._PL.NhanVien
             dgrid_CuaHang.Columns[1].Visible = false;
             foreach (var ch in _iCuaHangService.GetAll())
             {
-                dgrid_CuaHang.Rows.Add(stt++, ch.CuaHang.Id, ch.CuaHang.Ma, ch.CuaHang.Ten, ch.CuaHang.DiaChi, ch.CuaHang.ThanhPho, ch.CuaHang.QuocGia);
+                dgrid_CuaHang.Rows.Add(stt++, ch.IdCh, ch.MaCh, ch.TenCh, ch.DiaChiCH, ch.ThanhPho, ch.QuocGia);
             }
         }
 
@@ -144,12 +144,15 @@ namespace _3._PL.NhanVien
 
         private QLNhanVienViewModel getCuaHangControl()
         {
-            var ch = new CuaHang()
+            return new QLNhanVienViewModel()
             {
-                Id = Guid.Empty, Ma = txt_MaCuaHang.Text, Ten = txt_TenCuaHang.Text, DiaChi = txt_DiaChi.Text,
-                ThanhPho = cmb_ThanhPho.Text, QuocGia = cmb_QuocGia.Text
+                IdCh = Guid.Empty,
+                MaCh = txt_MaCuaHang.Text,
+                TenCh = txt_TenCuaHang.Text,
+                DiaChiCH = txt_DiaChi.Text,
+                ThanhPho = cmb_ThanhPho.Text,
+                QuocGia = cmb_QuocGia.Text
             };
-            return new QLNhanVienViewModel() { CuaHang = ch};
         }
 
         private void btn_Them_Click(object sender, EventArgs e)
@@ -162,7 +165,7 @@ namespace _3._PL.NhanVien
         private void btn_Sua_Click(object sender, EventArgs e)
         {
             var temp = getCuaHangControl();
-            temp.CuaHang.Id = _id;
+            temp.IdCh = _id;
             MessageBox.Show(_iCuaHangService.Update(temp));
             LoadCuaHang();
         }
@@ -170,7 +173,7 @@ namespace _3._PL.NhanVien
         private void btn_Xoa_Click(object sender, EventArgs e)
         {
             var temp = getCuaHangControl();
-            temp.CuaHang.Id = _id;
+            temp.IdCh = _id;
             DialogResult dialogResult = MessageBox.Show("Bạn có muốn xóa không", "Thông báo", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
