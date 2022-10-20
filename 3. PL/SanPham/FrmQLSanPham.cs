@@ -54,7 +54,7 @@ namespace _3._PL
             dgrid_ChiTietSP.Columns[1].Visible = false;
             foreach (var x in _iChiTietSanPhamService.GetAll())
             {
-                dgrid_ChiTietSP.Rows.Add(stt++, x.ChiTietSp.Id, x.SanPham.Ten, x.DongSp.Ten, x.MauSac.Ten, x.Nsx.Ten, x.ChiTietSp.NamBh, x.ChiTietSp.MoTa, x.ChiTietSp.SoLuongTon, x.ChiTietSp.GiaNhap, x.ChiTietSp.GiaBan);
+                dgrid_ChiTietSP.Rows.Add(stt++, x.IdCtSp, x.TenSp, x.TenDsp, x.TenMs, x.TenNsx, x.NamBh, x.MoTa, x.SoLuongTon, x.GiaNhap, x.GiaBan);
             }
         }
 
@@ -62,22 +62,22 @@ namespace _3._PL
         {
             foreach (var x in _iSanPhamService.GetAll())
             {
-                cmb_TenSP.Items.Add(x.SanPham.Ten);
+                cmb_TenSP.Items.Add(x.TenSp);
                 cmb_TenSP.SelectedIndex = 0;
             }
             foreach (var x in _iDongSpService.GetAll())
             {
-                cmb_DongSP.Items.Add(x.DongSp.Ten);
+                cmb_DongSP.Items.Add(x.TenDsp);
                 cmb_DongSP.SelectedIndex = 0;
             }
             foreach (var x in _iMauSacService.GetAll())
             {
-                cmb_MauSac.Items.Add(x.MauSac.Ten);
+                cmb_MauSac.Items.Add(x.TenMs);
                 cmb_MauSac.SelectedIndex = 0;
             }
             foreach (var x in _iNsxService.GetAll())
             {
-                cmb_NSX.Items.Add(x.Nsx.Ten);
+                cmb_NSX.Items.Add(x.TenNsx);
                 cmb_NSX.SelectedIndex = 0;
             }
         }
@@ -86,11 +86,11 @@ namespace _3._PL
             int rowindex = e.RowIndex;
             _id = Guid.Parse(dgrid_ChiTietSP.Rows[rowindex].Cells[1].Value.ToString());
             var temp = _iChiTietSanPhamService.getByGuidChiTietSpSanPham(_id);
-            cmb_TenSP.SelectedItem = _iChiTietSanPhamService.GetAll().FirstOrDefault(p => p.SanPham.Id == temp.IdSp).SanPham.Ten;
-            cmb_DongSP.SelectedItem = _iChiTietSanPhamService.GetAll().FirstOrDefault(p => p.DongSp.Id == temp.IdDongSp).DongSp.Ten;
+            cmb_TenSP.SelectedItem = _iChiTietSanPhamService.GetAll().FirstOrDefault(p => p.IdSp_FK == temp.IdSp).TenSp;
+            cmb_DongSP.SelectedItem = _iChiTietSanPhamService.GetAll().FirstOrDefault(p => p.IdDongSp_FK == temp.IdDongSp).TenDsp;
             cmb_MauSac.SelectedItem =
-                _iChiTietSanPhamService.GetAll().FirstOrDefault(p => p.MauSac.Id == temp.IdMauSac).MauSac.Ten;
-            cmb_NSX.SelectedItem = _iChiTietSanPhamService.GetAll().FirstOrDefault(p => p.Nsx.Id == temp.IdNsx).Nsx.Ten;
+                _iChiTietSanPhamService.GetAll().FirstOrDefault(p => p.IdMauSac_FK == temp.IdMauSac).TenMs;
+            cmb_NSX.SelectedItem = _iChiTietSanPhamService.GetAll().FirstOrDefault(p => p.IdNsx_FK == temp.IdNsx).TenNsx;
             txt_NamBH.Text = temp.NamBh.ToString();
             txt_MoTa.Text = temp.MoTa;
             txt_SoLuongTon.Text = temp.SoLuongTon.ToString();
@@ -99,12 +99,23 @@ namespace _3._PL
         }
         private QLSanPhamViewModel getChiTietSpControl()
         {
-            var sp = _iSanPhamService.GetAll().FirstOrDefault(p => p.SanPham.Ten == cmb_TenSP.Text);
-            var dsp = _iDongSpService.GetAll().FirstOrDefault(p => p.DongSp.Ten == cmb_DongSP.Text);
-            var ms = _iMauSacService.GetAll().FirstOrDefault(p => p.MauSac.Ten == cmb_MauSac.Text);
-            var nsx = _iNsxService.GetAll().FirstOrDefault(p => p.Nsx.Ten == cmb_NSX.Text);
-            var ctsp = new ChiTietSp() { Id = Guid.Empty, IdSp = sp.SanPham.Id, IdDongSp = dsp.DongSp.Id, IdMauSac = ms.MauSac.Id, IdNsx = nsx.Nsx.Id, NamBh = int.Parse(txt_NamBH.Text), MoTa = txt_MoTa.Text, SoLuongTon = int.Parse(txt_SoLuongTon.Text), GiaNhap = int.Parse(txt_GiaNhap.Text), GiaBan = int.Parse(txt_GiaBan.Text)};
-            return new QLSanPhamViewModel() { ChiTietSp = ctsp};
+            var sp = _iSanPhamService.GetAll().FirstOrDefault(p => p.TenSp == cmb_TenSP.Text);
+            var dsp = _iDongSpService.GetAll().FirstOrDefault(p => p.TenDsp == cmb_DongSP.Text);
+            var ms = _iMauSacService.GetAll().FirstOrDefault(p => p.TenMs == cmb_MauSac.Text);
+            var nsx = _iNsxService.GetAll().FirstOrDefault(p => p.TenNsx == cmb_NSX.Text);
+            return new QLSanPhamViewModel()
+            {
+                IdCtSp = Guid.Empty,
+                IdSp_FK = sp.IdSp,
+                IdDongSp_FK = dsp.IdDsp, 
+                IdMauSac_FK = ms.IdMs, 
+                IdNsx_FK = nsx.IdNsx, 
+                NamBh = int.Parse(txt_NamBH.Text),
+                MoTa = txt_MoTa.Text, 
+                SoLuongTon = int.Parse(txt_SoLuongTon.Text), 
+                GiaNhap = int.Parse(txt_GiaNhap.Text), 
+                GiaBan = int.Parse(txt_GiaBan.Text),
+            };
         }
         private void btn_Them_Click(object sender, EventArgs e)
         {
@@ -115,7 +126,7 @@ namespace _3._PL
         private void btn_Sua_Click(object sender, EventArgs e)
         {
             var temp = getChiTietSpControl();
-            temp.ChiTietSp.Id = _id;
+            temp.IdCtSp = _id;
             MessageBox.Show(_iChiTietSanPhamService.Update(temp));
             LoadChiTietSanPham();
         }
@@ -123,7 +134,7 @@ namespace _3._PL
         private void btn_Xoa_Click(object sender, EventArgs e)
         {
             var temp = getChiTietSpControl();
-            temp.ChiTietSp.Id = _id;
+            temp.IdCtSp = _id;
             DialogResult dialogResult = MessageBox.Show("Bạn có muốn xóa không", "Thông báo", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {

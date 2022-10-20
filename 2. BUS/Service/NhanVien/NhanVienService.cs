@@ -29,7 +29,23 @@ namespace _2._BUS.Service.NhanVien
 
         public string Add(QLNhanVienViewModel obj)
         {
-            if (_iNhanVienRepository.addNhanVien(obj.NhanVien))
+            var nv = new _1._DAL.DomainClass.NhanVien()
+            {
+                Id = obj.IdNv,
+                Ma = obj.MaNv,
+                Ten = obj.TenNv,
+                TenDem = obj.TenDemNv,
+                Ho = obj.HoNv,
+                GioiTinh = obj.GioiTinh,
+                NgaySinh = obj.NgaySinh,
+                DiaChi = obj.DiaChiNV,
+                Sdt = obj.Sdt,
+                MatKhau = obj.MatKhau,
+                IdCh = obj.IdCh_FK,
+                IdCv = obj.IdCv_FK,
+                TrangThai = obj.TrangThai,
+            };
+            if (_iNhanVienRepository.addNhanVien(nv))
             {
                 GetAllData();
                 return "Thêm thành công";
@@ -40,9 +56,25 @@ namespace _2._BUS.Service.NhanVien
 
         public string Update(QLNhanVienViewModel obj)
         {
-            int index = _iNhanVienRepository.getNhanViensFromDb().FindIndex(p => p.Id == obj.NhanVien.Id);
+            int index = _iNhanVienRepository.getNhanViensFromDb().FindIndex(p => p.Id == obj.IdNv);
             if (index == -1) return "Không tìm thấy";
-            if (_iNhanVienRepository.updateNhanVien(obj.NhanVien))
+            var nv = new _1._DAL.DomainClass.NhanVien()
+            {
+                Id = obj.IdNv,
+                Ma = obj.MaNv,
+                Ten = obj.TenNv,
+                TenDem = obj.TenDemNv,
+                Ho = obj.HoNv,
+                GioiTinh = obj.GioiTinh,
+                NgaySinh = obj.NgaySinh,
+                DiaChi = obj.DiaChiNV,
+                Sdt = obj.Sdt,
+                MatKhau = obj.MatKhau,
+                IdCh = obj.IdCh_FK,
+                IdCv = obj.IdCv_FK,
+                TrangThai = obj.TrangThai,
+            };
+            if (_iNhanVienRepository.updateNhanVien(nv))
             {
                 GetAllData();
                 return "Sửa thành công";
@@ -52,9 +84,25 @@ namespace _2._BUS.Service.NhanVien
 
         public string Delete(QLNhanVienViewModel obj)
         {
-            int index = _iNhanVienRepository.getNhanViensFromDb().FindIndex(p => p.Id == obj.NhanVien.Id);
+            int index = _iNhanVienRepository.getNhanViensFromDb().FindIndex(p => p.Id == obj.IdNv);
             if (index == -1) return "Không tìm thấy";
-            if (_iNhanVienRepository.deleteNhanVien(obj.NhanVien))
+            var nv = new _1._DAL.DomainClass.NhanVien()
+            {
+                Id = obj.IdNv,
+                Ma = obj.MaNv,
+                Ten = obj.TenNv,
+                TenDem = obj.TenDemNv,
+                Ho = obj.HoNv,
+                GioiTinh = obj.GioiTinh,
+                NgaySinh = obj.NgaySinh,
+                DiaChi = obj.DiaChiNV,
+                Sdt = obj.Sdt,
+                MatKhau = obj.MatKhau,
+                IdCh = obj.IdCh_FK,
+                IdCv = obj.IdCv_FK,
+                TrangThai = obj.TrangThai,
+            };
+            if (_iNhanVienRepository.deleteNhanVien(nv))
             {
                 GetAllData();
                 return "Xóa thành công";
@@ -69,9 +117,21 @@ namespace _2._BUS.Service.NhanVien
                               join c in _iCuaHangRepository.getCuaHangsFromDb() on a.IdCh equals c.Id
                               select new QLNhanVienViewModel()
                               {
-                                  NhanVien = a,
-                                  ChucVu = b,
-                                  CuaHang = c
+                                  IdNv = a.Id,
+                                  MaNv = a.Ma,
+                                  TenNv = a.Ten,
+                                  TenDemNv = a.TenDem,
+                                  HoNv = a.Ho,
+                                  GioiTinh = a.GioiTinh,
+                                  NgaySinh = a.NgaySinh,
+                                  DiaChiNV = a.DiaChi,
+                                  Sdt = a.Sdt,
+                                  MatKhau = a.MatKhau,
+                                  IdCh_FK = a.IdCh,
+                                  TenCh = c.Ten,
+                                  IdCv_FK = a.IdCv,
+                                  TenCv = b.Ma,
+                                  TrangThai = a.TrangThai,
                               }).ToList();
         }
 

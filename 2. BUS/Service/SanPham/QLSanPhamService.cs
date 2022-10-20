@@ -32,8 +32,21 @@ namespace _2._BUS.Service.SanPham
         }
         public string Add(QLSanPhamViewModel obj)
         {
+            var sp = new ChiTietSp()
+            {
+                Id = obj.IdCtSp,
+                IdSp = obj.IdSp_FK,
+                IdNsx = obj.IdNsx_FK,
+                IdMauSac = obj.IdMauSac_FK,
+                IdDongSp = obj.IdDongSp_FK,
+                NamBh = obj.NamBh,
+                MoTa = obj.MoTa,
+                SoLuongTon = obj.SoLuongTon,
+                GiaNhap = obj.GiaNhap,
+                GiaBan = obj.GiaBan,
+        };
             if (obj == null) return "Thêm không thành công";
-            if (_iChiTietSpRepository.addChiTietSp(obj.ChiTietSp))
+            if (_iChiTietSpRepository.addChiTietSp(sp))
             {
                 GetAll();
                 return "Thêm thành công";
@@ -44,7 +57,20 @@ namespace _2._BUS.Service.SanPham
         public string Update(QLSanPhamViewModel obj)
         {
             if (obj == null) return "Sửa không thành công";
-            if (_iChiTietSpRepository.updateChiTietSp(obj.ChiTietSp))
+            var sp = new ChiTietSp()
+            {
+                Id = obj.IdCtSp,
+                IdSp = obj.IdSp_FK,
+                IdNsx = obj.IdNsx_FK,
+                IdMauSac = obj.IdMauSac_FK,
+                IdDongSp = obj.IdDongSp_FK,
+                NamBh = obj.NamBh,
+                MoTa = obj.MoTa,
+                SoLuongTon = obj.SoLuongTon,
+                GiaNhap = obj.GiaNhap,
+                GiaBan = obj.GiaBan,
+            };
+            if (_iChiTietSpRepository.updateChiTietSp(sp))
             {
                 GetAll();
                 return "Sửa thành công";
@@ -55,7 +81,20 @@ namespace _2._BUS.Service.SanPham
         public string Delete(QLSanPhamViewModel obj)
         {
             if (obj == null) return "Xóa không thành công";
-            if (_iChiTietSpRepository.deleteChiTietSp(obj.ChiTietSp))
+            var sp = new ChiTietSp()
+            {
+                Id = obj.IdCtSp,
+                IdSp = obj.IdSp_FK,
+                IdNsx = obj.IdNsx_FK,
+                IdMauSac = obj.IdMauSac_FK,
+                IdDongSp = obj.IdDongSp_FK,
+                NamBh = obj.NamBh,
+                MoTa = obj.MoTa,
+                SoLuongTon = obj.SoLuongTon,
+                GiaNhap = obj.GiaNhap,
+                GiaBan = obj.GiaBan,
+            };
+            if (_iChiTietSpRepository.deleteChiTietSp(sp))
             {
                 GetAll();
                 return "Xóa thành công";
@@ -73,11 +112,20 @@ namespace _2._BUS.Service.SanPham
                                       join e in _iDongSpRepository.getDongSpsFromDb() on a.IdDongSp equals e.Id
                                       select new QLSanPhamViewModel()
                                       {
-                                          ChiTietSp = a,
-                                          MauSac = b,
-                                          SanPham = c,
-                                          Nsx = d,
-                                          DongSp = e
+                                          IdCtSp = a.Id,
+                                          IdSp_FK = a.IdSp,
+                                          TenSp = c.Ten,
+                                          IdNsx_FK = a.IdNsx,
+                                          TenNsx = d.Ten,
+                                          IdMauSac_FK = a.IdMauSac,
+                                          TenMs = b.Ten,
+                                          IdDongSp_FK = a.IdDongSp,
+                                          TenDsp = e.Ten,
+                                          NamBh = a.NamBh,
+                                          MoTa = a.MoTa,
+                                          SoLuongTon = a.SoLuongTon,
+                                          GiaNhap = a.GiaNhap,
+                                          GiaBan = a.GiaBan,
                                       }).ToList();
             return _sanPhamViewModelsList;
         }

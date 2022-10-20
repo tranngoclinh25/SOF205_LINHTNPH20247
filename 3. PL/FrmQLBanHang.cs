@@ -37,7 +37,7 @@ namespace _3._PL
             LoadSanPham();
             LoadHoaDon();
             LoadTenNV();
-            LoadGioHang(Key);
+            //LoadGioHang(Key);
         }
 
         private void LoadSanPham()
@@ -59,7 +59,7 @@ namespace _3._PL
             dgrid_SanPham.Columns[1].Visible = false;
             foreach (var x in _iSanPhamService.GetAll())
             {
-                dgrid_SanPham.Rows.Add(stt++, x.SanPham.Id, x.SanPham.Ma, x.SanPham.Ten, x.MauSac.Ten, x.ChiTietSp.NamBh, x.DongSp.Ten, x.ChiTietSp.MoTa, x.ChiTietSp.SoLuongTon, x.ChiTietSp.GiaNhap, x.ChiTietSp.GiaBan);
+                dgrid_SanPham.Rows.Add(stt++, x.IdSp, x.MaSp, x.MaSp, x.TenSp, x.NamBh, x.TenDsp, x.MoTa, x.SoLuongTon, x.GiaNhap, x.GiaBan);
             }
         }
 
@@ -100,20 +100,21 @@ namespace _3._PL
         }
         private QLHoaDonViewModel getHoaDonControl()
         {
-            var nv = _iNhanVienService.GetAll().FirstOrDefault(p => p.NhanVien.Ten == cmb_TenNV.Text);
-            var hd = new HoaDon() { Id = Guid.Empty, NgayTao = DateTime.Now, IdNv = nv.NhanVien.Id, TinhTrang = 1};
+            var nv = _iNhanVienService.GetAll().FirstOrDefault(p => p.TenNv == cmb_TenNV.Text);
+            var hd = new HoaDon() { Id = Guid.Empty, NgayTao = DateTime.Now, IdNv = nv.IdNv, TinhTrang = 1};
             return new QLHoaDonViewModel() { HoaDon = hd };
         }
         private void btn_TaoHoaDon_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(_iHoaDonService.Add(getHoaDonControl()));
-            LoadHoaDon();
+            //MessageBox.Show(_iHoaDonService.Add(getHoaDonControl()));
+            //LoadHoaDon();
         }
         private void btn_Huy_Click(object sender, EventArgs e)
         {
 
         }
         #endregion
+
         private void dgrid_SanPham_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             int rowindex = e.RowIndex;
