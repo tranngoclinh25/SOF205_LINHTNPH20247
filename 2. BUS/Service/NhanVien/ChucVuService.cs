@@ -25,7 +25,13 @@ namespace _2._BUS.Service.NhanVien
 
         public string Add(QLNhanVienViewModel obj)
         {
-            if (_iChucVuRepository.addChucVu(obj.ChucVu))
+            var cv = new ChucVu()
+            {
+                Id = obj.IdCv,
+                Ma = obj.MaCv,
+                Ten = obj.TenCv,
+            };
+            if (_iChucVuRepository.addChucVu(cv))
             {
                 GetAllData();
                 return "Thêm thành công";
@@ -36,9 +42,15 @@ namespace _2._BUS.Service.NhanVien
 
         public string Update(QLNhanVienViewModel obj)
         {
-            int index = _iChucVuRepository.getChucVusFromDB().FindIndex(p => p.Id == obj.ChucVu.Id);
+            int index = _iChucVuRepository.getChucVusFromDB().FindIndex(p => p.Id == obj.IdCv);
             if (index == -1) return "Không tìm thấy";
-            if (_iChucVuRepository.updateChucVu(obj.ChucVu))
+            var cv = new ChucVu()
+            {
+                Id = obj.IdCv,
+                Ma = obj.MaCv,
+                Ten = obj.TenCv,
+            };
+            if (_iChucVuRepository.updateChucVu(cv))
             {
                 GetAllData();
                 return "Sửa thành công";
@@ -48,9 +60,15 @@ namespace _2._BUS.Service.NhanVien
 
         public string Delete(QLNhanVienViewModel obj)
         {
-            int index = _iChucVuRepository.getChucVusFromDB().FindIndex(p => p.Id == obj.ChucVu.Id);
+            int index = _iChucVuRepository.getChucVusFromDB().FindIndex(p => p.Id == obj.IdCv);
             if (index == -1) return "Không tìm thấy";
-            if (_iChucVuRepository.deleteChucVu(obj.ChucVu))
+            var cv = new ChucVu()
+            {
+                Id = obj.IdCv,
+                Ma = obj.MaCv,
+                Ten = obj.TenCv,
+            };
+            if (_iChucVuRepository.deleteChucVu(cv))
             {
                 GetAllData();
                 return "Xóa thành công";
@@ -63,7 +81,9 @@ namespace _2._BUS.Service.NhanVien
             _chucVusList = (from a in _iChucVuRepository.getChucVusFromDB()
                     select new QLNhanVienViewModel()
                     {
-                        ChucVu = a
+                        IdCv = a.Id,
+                        MaCv = a.Ma,
+                        TenCv = a.Ten,
                     }).ToList();
         }
 

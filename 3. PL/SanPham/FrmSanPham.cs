@@ -37,7 +37,7 @@ namespace _3._PL.SanPham
             dgrid_SP.Columns[1].Visible = false;
             foreach (var sp in _iSanPhamService.GetAll())
             {
-                dgrid_SP.Rows.Add(stt++, sp.SanPham.Id, sp.SanPham.Ma, sp.SanPham.Ten);
+                dgrid_SP.Rows.Add(stt++, sp.IdSp, sp.MaSp, sp.TenSp);
             }
         }
         private void dgrid_SP_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -50,8 +50,12 @@ namespace _3._PL.SanPham
         }
         private QLSanPhamViewModel getSanPhamControl()
         {
-            var sp = new _1._DAL.DomainClass.SanPham() { Id = Guid.Empty, Ma = txt_MaSP.Text, Ten = txt_TenSP.Text };
-            return new QLSanPhamViewModel() { SanPham = sp};
+            return new QLSanPhamViewModel()
+            {
+                IdSp = Guid.Empty,
+                MaSp = txt_MaSP.Text,
+                TenSp = txt_TenSP.Text,
+            };
         }
         private void btn_Them_Click(object sender, EventArgs e)
         {
@@ -62,7 +66,7 @@ namespace _3._PL.SanPham
         private void btn_Sua_Click(object sender, EventArgs e)
         {
             var temp = getSanPhamControl();
-            temp.SanPham.Id = _id;
+            temp.IdSp = _id;
             MessageBox.Show(_iSanPhamService.Update(temp));
             LoadSanPham();
         }
@@ -70,7 +74,7 @@ namespace _3._PL.SanPham
         private void btn_Xoa_Click(object sender, EventArgs e)
         {
             var temp = getSanPhamControl();
-            temp.SanPham.Id = _id;
+            temp.IdSp = _id;
             DialogResult dialogResult = MessageBox.Show("Bạn có muốn xóa không", "Thông báo", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {

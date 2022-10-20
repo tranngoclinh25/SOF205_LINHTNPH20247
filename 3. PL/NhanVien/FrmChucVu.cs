@@ -36,7 +36,7 @@ namespace _3._PL.NhanVien
             dgrid_ChucVu.Columns[1].Visible = false;
             foreach (var cv in _iChucVuService.GetAll())
             {
-                dgrid_ChucVu.Rows.Add(stt++, cv.ChucVu.Id, cv.ChucVu.Ma, cv.ChucVu.Ten);
+                dgrid_ChucVu.Rows.Add(stt++, cv.IdCv, cv.MaCv, cv.TenCv);
             }
         }
         private void dgrid_ChucVu_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -49,8 +49,12 @@ namespace _3._PL.NhanVien
         }
         private QLNhanVienViewModel getDongSpControl()
         {
-            var cv = new ChucVu() { Id = Guid.Empty, Ma = txt_MaChucVu.Text, Ten = txt_TenChucVu.Text };
-            return new QLNhanVienViewModel() { ChucVu = cv };
+            return new QLNhanVienViewModel()
+            {
+                IdCv = Guid.Empty,
+                MaCv = txt_MaChucVu.Text,
+                TenCv = txt_TenChucVu.Text,
+            };
         }
         private void btn_Them_Click(object sender, EventArgs e)
         {
@@ -61,7 +65,7 @@ namespace _3._PL.NhanVien
         private void btn_Sua_Click(object sender, EventArgs e)
         {
             var temp = getDongSpControl();
-            temp.ChucVu.Id = _id;
+            temp.IdCv = _id;
             MessageBox.Show(_iChucVuService.Update(temp));
             LoadChucVu();
         }
@@ -69,7 +73,7 @@ namespace _3._PL.NhanVien
         private void btn_Xoa_Click(object sender, EventArgs e)
         {
             var temp = getDongSpControl();
-            temp.ChucVu.Id = _id;
+            temp.IdCv = _id;
             DialogResult dialogResult = MessageBox.Show("Bạn có muốn xóa không", "Thông báo", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {

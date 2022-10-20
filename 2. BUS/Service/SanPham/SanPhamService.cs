@@ -26,7 +26,13 @@ namespace _2._BUS.Service.SanPham
 
         public string Add(QLSanPhamViewModel obj)
         {
-            if (_iSanPhamRepository.addSanPham(obj.SanPham))
+            var sp = new _1._DAL.DomainClass.SanPham()
+            {
+                Id = obj.IdSp,
+                Ma = obj.MaSp,
+                Ten = obj.TenSp
+            };
+            if (_iSanPhamRepository.addSanPham(sp))
             {
                 GetAllData();
                 return "Thêm thành công";
@@ -37,9 +43,15 @@ namespace _2._BUS.Service.SanPham
 
         public string Update(QLSanPhamViewModel obj)
         {
-            int index = _iSanPhamRepository.getSanPhamsFromDb().FindIndex(p => p.Id == obj.SanPham.Id);
+            int index = _iSanPhamRepository.getSanPhamsFromDb().FindIndex(p => p.Id == obj.IdSp);
             if (index == -1) return "Không tìm thấy";
-            if (_iSanPhamRepository.updateSanPham(obj.SanPham))
+            var sp = new _1._DAL.DomainClass.SanPham()
+            {
+                Id = obj.IdSp,
+                Ma = obj.MaSp,
+                Ten = obj.TenSp
+            };
+            if (_iSanPhamRepository.updateSanPham(sp))
             {
                 GetAllData();
                 return "Sửa thành công";
@@ -49,22 +61,30 @@ namespace _2._BUS.Service.SanPham
 
         public string Delete(QLSanPhamViewModel obj)
         {
-            int index = _iSanPhamRepository.getSanPhamsFromDb().FindIndex(p => p.Id == obj.SanPham.Id);
+            int index = _iSanPhamRepository.getSanPhamsFromDb().FindIndex(p => p.Id == obj.IdSp);
             if (index == -1) return "Không tìm thấy";
-            if (_iSanPhamRepository.deleteSanPham(obj.SanPham))
+            var sp = new _1._DAL.DomainClass.SanPham()
+            {
+                Id = obj.IdSp,
+                Ma = obj.MaSp,
+                Ten = obj.TenSp
+            };
+            if (_iSanPhamRepository.deleteSanPham(sp))
             {
                 GetAllData();
                 return "Xóa thành công";
             }
             return "Xóa không thành công";
-        }
 
+        }
         public void GetAllData()
         {
             _SanPhamList = (from a in _iSanPhamRepository.getSanPhamsFromDb()
                             select new QLSanPhamViewModel()
                             {
-                                SanPham = a
+                                IdSp = a.Id,
+                                MaSp = a.Ma,
+                                TenSp = a.Ten
                             }).ToList();
         }
 

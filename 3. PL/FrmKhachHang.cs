@@ -45,7 +45,7 @@ namespace _3._PL
             dgrid_KhachHang.Columns[1].Visible = false;
             foreach (var x in _iKhachHangService.GetAll())
             {
-                dgrid_KhachHang.Rows.Add(stt++, x.KhachHang.Id, $"{x.KhachHang.Ho} {x.KhachHang.TenDem} {x.KhachHang.Ten}", x.KhachHang.NgaySinh, x.KhachHang.DiaChi, x.KhachHang.Sdt, x.KhachHang.MatKhau, x.KhachHang.ThanhPho, x.KhachHang.QuocGia);
+                dgrid_KhachHang.Rows.Add(stt++, x.Id, $"{x.Ho} {x.TenDem} {x.Ten}", x.NgaySinh, x.DiaChi, x.Sdt, x.MatKhau, x.ThanhPho, x.QuocGia);
             }
         }
         private void LoadThanhPho()
@@ -147,8 +147,10 @@ namespace _3._PL
         }
         private KhachHangViewModel getNhanVienControl()
         {
-            var kh = new KhachHang() { Id = Guid.Empty, Ma = txt_MaKH.Text, Ten = txt_TenKH.Text, TenDem = txt_TenDemKH.Text, Ho = txt_HoKH.Text, NgaySinh = DT_NgaySinh.Value, DiaChi = txt_DiaChi.Text, Sdt = txt_SDT.Text, MatKhau = txt_Pass.Text, ThanhPho = cmb_ThanhPho.Text, QuocGia = cmb_QuocGia.Text };
-            return new KhachHangViewModel() { KhachHang = kh };
+            return new KhachHangViewModel()
+            {
+                Id = Guid.Empty, Ma = txt_MaKH.Text, Ten = txt_TenKH.Text, TenDem = txt_TenDemKH.Text, Ho = txt_HoKH.Text, NgaySinh = DT_NgaySinh.Value, DiaChi = txt_DiaChi.Text, Sdt = txt_SDT.Text, MatKhau = txt_Pass.Text, ThanhPho = cmb_ThanhPho.Text, QuocGia = cmb_QuocGia.Text
+            };
         }
         private void btn_Them_Click(object sender, EventArgs e)
         {
@@ -159,7 +161,7 @@ namespace _3._PL
         private void btn_Sua_Click(object sender, EventArgs e)
         {
             var temp = getNhanVienControl();
-            temp.KhachHang.Id = _id;
+            temp.Id = _id;
             MessageBox.Show(_iKhachHangService.Update(temp));
             LoadKhachHang();
         }
@@ -167,7 +169,7 @@ namespace _3._PL
         private void btn_Xoa_Click(object sender, EventArgs e)
         {
             var temp = getNhanVienControl();
-            temp.KhachHang.Id = _id;
+            temp.Id = _id;
             DialogResult dialogResult = MessageBox.Show("Bạn có muốn xóa không", "Thông báo", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {

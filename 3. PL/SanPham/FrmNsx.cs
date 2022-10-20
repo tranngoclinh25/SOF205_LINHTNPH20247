@@ -38,7 +38,7 @@ namespace _3._PL
             dgrid_NSX.Columns[1].Visible = false;
             foreach (var nsx in _iNsxService.GetAll())
             {
-                dgrid_NSX.Rows.Add(stt++, nsx.Nsx.Id, nsx.Nsx.Ma, nsx.Nsx.Ten);
+                dgrid_NSX.Rows.Add(stt++, nsx.IdNsx, nsx.MaNsx, nsx.TenNsx);
             }
         }
 
@@ -53,8 +53,12 @@ namespace _3._PL
 
         private QLSanPhamViewModel getNsxControl()
         {
-            var nsx = new Nsx() { Id = Guid.Empty, Ma = txt_MaNSX.Text, Ten = txt_TenNSX.Text };
-            return new QLSanPhamViewModel() { Nsx = nsx};
+            return new QLSanPhamViewModel()
+            {
+                IdNsx = Guid.Empty,
+                MaNsx = txt_MaNSX.Text,
+                TenNsx = txt_TenNSX.Text
+            };
         }
 
         private void btn_Them_Click(object sender, EventArgs e)
@@ -66,7 +70,7 @@ namespace _3._PL
         private void btn_Sua_Click(object sender, EventArgs e)
         {
             var temp = getNsxControl();
-            temp.Nsx.Id = _id;
+            temp.IdNsx = _id;
             MessageBox.Show(_iNsxService.Update(temp));
             LoadNsx();
         }
@@ -74,7 +78,7 @@ namespace _3._PL
         private void btn_Xoa_Click(object sender, EventArgs e)
         {
             var temp = getNsxControl();
-            temp.Nsx.Id = _id;
+            temp.IdNsx = _id;
             DialogResult dialogResult = MessageBox.Show("Bạn có muốn xóa không", "Thông báo", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
