@@ -49,7 +49,7 @@ namespace _3._PL.NhanVien
             dgrid_NhanVien.Columns[1].Visible = false;
             foreach (var x in _iNhanVienService.GetAll())
             {
-                dgrid_NhanVien.Rows.Add(stt++, x.NhanVien.Id,$"{x.NhanVien.Ho} {x.NhanVien.TenDem} {x.NhanVien.Ten}", x.NhanVien.GioiTinh, x.NhanVien.NgaySinh, x.NhanVien.DiaChi,x.NhanVien.Sdt,x.NhanVien.MatKhau,x.ChucVu.Ten,x.CuaHang.Ten,x.NhanVien.TrangThai==1?"Đang Làm":"Nghỉ Làm");
+                dgrid_NhanVien.Rows.Add(stt++, x.IdNv,$"{x.HoNv} {x.TenDemNv} {x.TenNv}", x.GioiTinh, x.NgaySinh, x.DiaChiNV,x.Sdt,x.MatKhau,x.TenCv,x.TenCh,x.TrangThai==1?"Đang Làm":"Nghỉ Làm");
             }
         }
 
@@ -57,13 +57,13 @@ namespace _3._PL.NhanVien
         {
             foreach (var x in _iChucVuService.GetAll())
             {
-                cmb_ChucVu.Items.Add(x.ChucVu.Ten);
+                cmb_ChucVu.Items.Add(x.TenCv);
                 cmb_ChucVu.SelectedIndex = 0;
             }
 
             foreach (var x in _iCuaHangService.GetAll())
             {
-                cmb_CuaHang.Items.Add(x.CuaHang.Ten);
+                cmb_CuaHang.Items.Add(x.TenCh);
                 cmb_CuaHang.SelectedIndex = 0;
             }
         }
@@ -73,8 +73,8 @@ namespace _3._PL.NhanVien
             int rowindex = e.RowIndex;
             _id = Guid.Parse(dgrid_NhanVien.Rows[rowindex].Cells[1].Value.ToString());
             var temp = _iNhanVienService.getByGuid(_id);
-            cmb_ChucVu.SelectedItem = _iNhanVienService.GetAll().FirstOrDefault(p=>p.NhanVien.IdCv == temp.IdCv).ChucVu.Ten;
-            cmb_CuaHang.SelectedItem = _iNhanVienService.GetAll().FirstOrDefault(p => p.NhanVien.IdCh == temp.IdCh).CuaHang.Ten;
+            cmb_ChucVu.SelectedItem = _iNhanVienService.GetAll().FirstOrDefault(p=>p.IdCv_FK == temp.IdCv).TenCv;
+            cmb_CuaHang.SelectedItem = _iNhanVienService.GetAll().FirstOrDefault(p => p.IdCh_FK == temp.IdCh).TenCh;
             txt_MaNV.Text = temp.Ma;
             txt_TenNV.Text = temp.Ten;
             txt_TenDemNV.Text = temp.TenDem;
@@ -93,10 +93,24 @@ namespace _3._PL.NhanVien
         }
         private QLNhanVienViewModel getNhanVienControl()
         {
-            var cv = _iChucVuService.GetAll().FirstOrDefault(p => p.ChucVu.Ten == cmb_ChucVu.Text);
-            var ch = _iCuaHangService.GetAll().FirstOrDefault(p => p.CuaHang.Ten == cmb_CuaHang.Text);
-            var nv = new _1._DAL.DomainClass.NhanVien { Id = Guid.Empty, Ma = txt_MaNV.Text, Ten = txt_TenNV.Text, TenDem = txt_TenDemNV.Text, Ho = txt_HoNV.Text, GioiTinh = txt_GioiTinh.Text, NgaySinh = DT_NgaySinh.Value, DiaChi = txt_DiaChi.Text, Sdt = txt_SDT.Text, MatKhau = txt_Pass.Text, IdCv = cv.ChucVu.Id, IdCh = ch.CuaHang.Id, TrangThai =  rbtn_DangLam.Checked == true ? 1 : 0};
-            return new QLNhanVienViewModel() { NhanVien = nv };
+            var cv = _iChucVuService.GetAll().FirstOrDefault(p => p.TenCv == cmb_ChucVu.Text);
+            var ch = _iCuaHangService.GetAll().FirstOrDefault(p => p.TenCh == cmb_CuaHang.Text);
+            return new QLNhanVienViewModel()
+            {
+                IdNv = Guid.Empty,
+                MaNv = txt_MaNV.Text,
+                TenNv = txt_TenNV.Text,
+                TenDemNv = txt_TenDemNV.Text,
+                HoNv = txt_HoNV.Text,
+                GioiTinh = txt_GioiTinh.Text,
+                NgaySinh = DT_NgaySinh.Value,
+                DiaChiNV = txt_DiaChi.Text,
+                Sdt = txt_SDT.Text,
+                MatKhau = txt_Pass.Text,
+                IdCv_FK = cv.IdCv,
+                IdCh_FK = ch.IdCh,
+                TrangThai = rbtn_DangLam.Checked == true ? 1 : 0
+            };
         }
 
         private void btn_Them_Click(object sender, EventArgs e)
@@ -108,7 +122,7 @@ namespace _3._PL.NhanVien
         private void btn_Sua_Click(object sender, EventArgs e)
         {
             var temp = getNhanVienControl();
-            temp.NhanVien.Id = _id;
+            temp.IdNv = _id;
             MessageBox.Show(_iNhanVienService.Update(temp));
             LoadNhanVien();
         }
@@ -116,7 +130,7 @@ namespace _3._PL.NhanVien
         private void btn_Xoa_Click(object sender, EventArgs e)
         {
             var temp = getNhanVienControl();
-            temp.NhanVien.Id = _id;
+            temp.IdNv = _id;
             DialogResult dialogResult = MessageBox.Show("Bạn có muốn xóa không", "Thông báo", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
