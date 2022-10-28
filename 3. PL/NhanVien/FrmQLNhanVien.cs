@@ -33,23 +33,24 @@ namespace _3._PL.NhanVien
         private void LoadNhanVien()
         {
             int stt = 1;
-            dgrid_NhanVien.ColumnCount = 11;
+            dgrid_NhanVien.ColumnCount = 12;
             dgrid_NhanVien.Columns[0].Name = "STT";
             dgrid_NhanVien.Columns[1].Name = "ID";
             dgrid_NhanVien.Columns[2].Name = "Tên NV";
             dgrid_NhanVien.Columns[3].Name = "Giới Tính";
             dgrid_NhanVien.Columns[4].Name = "Ngày Sinh";
-            dgrid_NhanVien.Columns[5].Name = "Địa Chỉ";
-            dgrid_NhanVien.Columns[6].Name = "SDT";
-            dgrid_NhanVien.Columns[7].Name = "Mật Khẩu";
-            dgrid_NhanVien.Columns[8].Name = "Chức Vụ";
-            dgrid_NhanVien.Columns[9].Name = "Của Hàng";
-            dgrid_NhanVien.Columns[10].Name = "Trạng Thái";
+            dgrid_NhanVien.Columns[5].Name = "Tuổi";
+            dgrid_NhanVien.Columns[6].Name = "Địa Chỉ";
+            dgrid_NhanVien.Columns[7].Name = "SDT";
+            dgrid_NhanVien.Columns[8].Name = "Mật Khẩu";
+            dgrid_NhanVien.Columns[9].Name = "Chức Vụ";
+            dgrid_NhanVien.Columns[10].Name = "Của Hàng";
+            dgrid_NhanVien.Columns[11].Name = "Trạng Thái";
             dgrid_NhanVien.Rows.Clear();
             dgrid_NhanVien.Columns[1].Visible = false;
             foreach (var x in _iNhanVienService.GetAll())
             {
-                dgrid_NhanVien.Rows.Add(stt++, x.IdNv,$"{x.HoNv} {x.TenDemNv} {x.TenNv}", x.GioiTinh, x.NgaySinh, x.DiaChiNV,x.Sdt,x.MatKhau,x.TenCv,x.TenCh,x.TrangThai==1?"Đang Làm":"Nghỉ Làm");
+                dgrid_NhanVien.Rows.Add(stt++, x.IdNv,$"{x.HoNv} {x.TenDemNv} {x.TenNv}", x.GioiTinh, x.NgaySinh, x.Tuoi ,x.DiaChiNV,x.Sdt,x.MatKhau,x.TenCv,x.TenCh,x.TrangThai==1?"Đang Làm":"Nghỉ Làm");
             }
         }
 

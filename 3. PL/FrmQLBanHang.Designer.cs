@@ -110,6 +110,9 @@
             this.txt_TimKiemSanPham.Size = new System.Drawing.Size(595, 38);
             this.txt_TimKiemSanPham.TabIndex = 2;
             this.txt_TimKiemSanPham.Text = "Tìm kiếm ... ";
+            this.txt_TimKiemSanPham.TextChanged += new System.EventHandler(this.txt_TimKiemSanPham_TextChanged);
+            this.txt_TimKiemSanPham.Leave += new System.EventHandler(this.txt_TimKiemSanPham_Leave);
+            this.txt_TimKiemSanPham.MouseUp += new System.Windows.Forms.MouseEventHandler(this.txt_TimKiemSanPham_MouseUp);
             // 
             // panel1
             // 
