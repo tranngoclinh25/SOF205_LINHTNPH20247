@@ -281,6 +281,7 @@
             this.cmb_TenSP.Name = "cmb_TenSP";
             this.cmb_TenSP.Size = new System.Drawing.Size(259, 33);
             this.cmb_TenSP.TabIndex = 17;
+            this.cmb_TenSP.SelectedIndexChanged += new System.EventHandler(this.cmb_TenSP_SelectedIndexChanged);
             // 
             // cmb_DongSP
             // 

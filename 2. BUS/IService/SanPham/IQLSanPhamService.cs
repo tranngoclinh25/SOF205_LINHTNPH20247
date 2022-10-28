@@ -13,7 +13,9 @@ namespace _2._BUS.IService.SanPham
         string Add(QLSanPhamViewModel obj);
         string Update(QLSanPhamViewModel obj);
         string Delete(QLSanPhamViewModel obj);
+        void GetAllData();
         List<QLSanPhamViewModel> GetAll();
+        List<QLSanPhamViewModel> GetAll(string input);
         ChiTietSp getByGuidChiTietSpSanPham(Guid id);
     }
 }

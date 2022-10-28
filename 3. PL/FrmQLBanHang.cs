@@ -34,13 +34,13 @@ namespace _3._PL
             _iSanPhamService = new QLSanPhamService();
             _iHoaDonService = new HoaDonService();
             _iNhanVienService = new NhanVienService();
-            LoadSanPham();
+            LoadSanPham(null);
             LoadHoaDon();
             LoadTenNV();
             //LoadGioHang(Key);
         }
 
-        private void LoadSanPham()
+        private void LoadSanPham(string input)
         {
             int stt = 1;
             dgrid_SanPham.ColumnCount = 11;
@@ -57,9 +57,9 @@ namespace _3._PL
             dgrid_SanPham.Columns[10].Name = "Giá Bán";
             dgrid_SanPham.Rows.Clear();
             dgrid_SanPham.Columns[1].Visible = false;
-            foreach (var x in _iSanPhamService.GetAll())
+            foreach (var x in _iSanPhamService.GetAll(input))
             {
-                dgrid_SanPham.Rows.Add(stt++, x.IdSp, x.MaSp, x.MaSp, x.TenSp, x.NamBh, x.TenDsp, x.MoTa, x.SoLuongTon, x.GiaNhap, x.GiaBan);
+                dgrid_SanPham.Rows.Add(stt++, x.IdSp, x.MaSp, x.TenSp, x.TenMs, x.NamBh, x.TenDsp, x.MoTa, x.SoLuongTon, x.GiaNhap, x.GiaBan);
             }
         }
 
@@ -162,6 +162,20 @@ namespace _3._PL
             FrmKhachHang _frmKhachHang;
             _frmKhachHang = new FrmKhachHang();
             _frmKhachHang.ShowDialog();
+        }
+        private void txt_TimKiemSanPham_MouseUp(object sender, MouseEventArgs e)
+        {
+            txt_TimKiemSanPham.Text = null;
+        }
+
+        private void txt_TimKiemSanPham_Leave(object sender, EventArgs e)
+        {
+            txt_TimKiemSanPham.Text = "Tìm kiếm ... ";
+            LoadSanPham(null);
+        }
+        private void txt_TimKiemSanPham_TextChanged(object sender, EventArgs e)
+        {
+            LoadSanPham(txt_TimKiemSanPham.Text);
         }
     }
 }

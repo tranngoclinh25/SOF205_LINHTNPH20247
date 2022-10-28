@@ -183,5 +183,10 @@ namespace _3._PL
             _frmQlMauSac = new FrmMauSac();
             _frmQlMauSac.ShowDialog();
         }
+
+        private void cmb_TenSP_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadChiTietSanPham();
+        }
     }
 }

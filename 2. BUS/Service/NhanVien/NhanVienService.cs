@@ -124,6 +124,7 @@ namespace _2._BUS.Service.NhanVien
                                   HoNv = a.Ho,
                                   GioiTinh = a.GioiTinh,
                                   NgaySinh = a.NgaySinh,
+                                  Tuoi = DateTime.Now.Year - (a.NgaySinh.Value.Year),
                                   DiaChiNV = a.DiaChi,
                                   Sdt = a.Sdt,
                                   MatKhau = a.MatKhau,
